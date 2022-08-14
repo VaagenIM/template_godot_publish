@@ -3,7 +3,8 @@ on: push
 
 env:
   # https://hub.docker.com/r/barichello/godot-ci/tags
-  GODOT_VERSION: 3.5  # Husk � oppdater image: p� linje 14
+  GODOT_VERSION: 3.5
+  DOCKER_IMAGE: barichello/godot-ci:3.5
   PROJECT_FOLDER: demo_project
 
 jobs:
@@ -11,7 +12,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:3.5  # Obs!
+      image: ${DOCKER_IMAGE}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,11 +36,11 @@ jobs:
           name: web
           path: build/web
 
-      - name: Install rsync 📚
+      - name: Install rsync ðŸ“š
         run: |
           apt-get update && apt-get install -y rsync
 
-      - name: Deploy to GitHub Pages 🚀
+      - name: Deploy to GitHub Pages ðŸš€
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           branch: gh-pages # The branch the action should deploy to.
