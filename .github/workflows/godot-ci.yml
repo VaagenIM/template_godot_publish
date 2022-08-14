@@ -3,8 +3,7 @@ on: push
 
 env:
   # https://hub.docker.com/r/barichello/godot-ci/tags
-  GODOT_VERSION: 3.5
-  DOCKER_IMAGE: barichello/godot-ci:3.5
+  GODOT_VERSION: 3.5 # Husk å også oppdater container image på linje 14
   PROJECT_FOLDER: demo_project
 
 jobs:
@@ -12,7 +11,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: '${DOCKER_IMAGE}'
+      image: barichello/godot-ci:3.5
     steps:
       - name: Checkout
         uses: actions/checkout@v2
