@@ -12,7 +12,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: ${DOCKER_IMAGE}
+      image: '${DOCKER_IMAGE}'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
