@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_right = 1025.0
+margin_bottom = 600.0
+text = "Hello World!"
+align = 1
+valign = 1
