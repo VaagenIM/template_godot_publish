@@ -4,7 +4,7 @@ on: push
 env:
   # https://hub.docker.com/r/barichello/godot-ci/tags
   GODOT_VERSION: 3.5  # Husk å oppdatere container image på linje 14
-  PROJECT_FOLDER: demo/project
+  PROJECT_FOLDER: demo_project
 
 jobs:
   export-web:

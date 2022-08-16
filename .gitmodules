@@ -1,4 +1,0 @@
-[submodule "demo"]
-	path = demo
-	url = https://github.com/VaagenIM/godot_demo
-	branch = main
