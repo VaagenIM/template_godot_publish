@@ -16,8 +16,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          submodules: recursive
           lfs: true
+          submodules: 'true'
 
 
       - name: Setup
