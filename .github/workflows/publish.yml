@@ -13,6 +13,12 @@ env:
 jobs:
   Builder:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     container:
       image: registry.gitlab.com/greenfox/godot-build-automation:latest
     steps:
