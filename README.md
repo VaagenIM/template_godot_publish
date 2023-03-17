@@ -8,7 +8,7 @@ Dette er en placeholder hvor du kan skrive litt om spillet du har laget, dersom 
 
 ## Oppsett GitHub
 - `PROJECT_PATH` verdien i [.github/workflows/publish.yml](.github/workflows/publish.yml#L11) må endres til å samsvare med din _Godot_ prosjektmappe.
-- _GitHub Pages_ må skrus på for at siden skal publiseres. Dette gjør du via [GitHub Settings -> Pages menyen](../settings/pages). 
+- _GitHub Pages_ må skrus på for at siden skal publiseres. Dette gjør du via [GitHub Settings -> Pages menyen](../../settings/pages). 
 - Her velger du under `Build and Deployment -> Source: GitHub Actions`.
 
 Det kan hende du må starte workflow runnen i GitHub på ny via [Actions](../../actions) siden. Når alt er konfigurert vil spillet automatisk oppdateres i GitHub Pages ved nye endringer.
