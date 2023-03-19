@@ -1,7 +1,7 @@
 # Godot Project Template
 ![Godot Builder](../../actions/workflows/publish.yml/badge.svg)
 
-Automatisk publisering av Godot prosjekter til GitHub via GitHub Pages. Demo: https://vaagenim.github.io/template_godot_publish/HTML5/Typing%20Demo.html
+Automatisk publisering av Godot prosjekter til GitHub via GitHub Pages. Demo: https://vaagenim.github.io/template_godot_publish/HTML5/Typing-Demo.html
 
 ## Om spillet
 Dette er en placeholder hvor du kan skrive litt om spillet du har laget, dersom du ønsker det. Gjerne slett teksten nedenfor og erstatt den med din egen.
