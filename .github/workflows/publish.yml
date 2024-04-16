@@ -25,7 +25,6 @@ jobs:
 
     steps:
     - name: "Set environmental variables"
-      # If you have a custom godot you may want to modify the urls to download your own godot and templates
       run: |
         echo "GODOT_VERSION=${GODOT_MAJOR_MINOR_VERSION}" >> $GITHUB_ENV
         echo "GODOT_EXECUTABLE_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_MAJOR_MINOR_VERSION}/Godot_v${GODOT_MAJOR_MINOR_VERSION}-stable_linux.x86_64.zip" >> $GITHUB_ENV
