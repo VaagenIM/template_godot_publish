@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pages: write
@@ -11,7 +15,7 @@ permissions:
 
 env:
   GODOT_MAJOR_MINOR_VERSION: "4.2.1"  # Din Godot versjon (se "About Godot")
-  PROJECT_FOLDER: "demo_project"  # Mappesti fra GitHub repo root
+  PROJECT_FOLDER: "RRR"  # Mappesti fra GitHub repo root
   EXPORT_PRESET_NAME: Web  # Navn på Web Export Preset
 
   # Skal ikke trenge å røre disse
@@ -22,7 +26,9 @@ jobs:
   godot_pages:
     runs-on: ubuntu-latest
     name: Godot Pages
-
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
     - name: "Set environmental variables"
       run: |
