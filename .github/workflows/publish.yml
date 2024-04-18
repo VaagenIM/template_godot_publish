@@ -12,7 +12,7 @@ permissions:
 env:
   GODOT_MAJOR_MINOR_VERSION: "4.2.1"  # Din Godot versjon (se "About Godot")
   PROJECT_FOLDER: "demo_project"  # Mappesti fra GitHub repo root
-  EXPORT_PRESET_NAME: HTML5  # Navn på Web Export Preset
+  EXPORT_PRESET_NAME: Web  # Navn på Web Export Preset
 
   # Skal ikke trenge å røre disse
   EXPORT_TEMPLATE: release
