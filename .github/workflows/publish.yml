@@ -4,6 +4,17 @@ on:
   push:
     branches: [ main ]
 
+env:
+  # Endre på disse
+  GODOT_VERSION: "4.2.1"         # Din Godot versjon (se "About Godot")
+  PROJECT_FOLDER: "demo_project" # Mappesti fra repository root
+  EXPORT_PRESET_NAME: Web        # Navn på Web Export Preset i Project/Export (Standard: Web)
+
+  # Skal ikke trenge å røre disse, eller noe lenger nede. (Med mindre du ønsker å bruke mkdocs, se nederst)
+  EXPORT_TEMPLATE: release
+  EXPORT_FOLDER: build/
+  EXPORT_FILENAME: index.html
+
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -13,15 +24,6 @@ permissions:
   pages: write
   id-token: write
 
-env:
-  GODOT_MAJOR_MINOR_VERSION: "4.2.1"  # Din Godot versjon (se "About Godot")
-  PROJECT_FOLDER: "RRR"  # Mappesti fra GitHub repo root
-  EXPORT_PRESET_NAME: Web  # Navn på Web Export Preset
-
-  # Skal ikke trenge å røre disse
-  EXPORT_TEMPLATE: release
-  EXPORT_FOLDER: build/
-  EXPORT_FILENAME: index.html
 jobs:
   godot_pages:
     runs-on: ubuntu-latest
@@ -32,33 +34,42 @@ jobs:
     steps:
     - name: "Set environmental variables"
       run: |
-        echo "GODOT_VERSION=${GODOT_MAJOR_MINOR_VERSION}" >> $GITHUB_ENV
-        echo "GODOT_EXECUTABLE_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_MAJOR_MINOR_VERSION}/Godot_v${GODOT_MAJOR_MINOR_VERSION}-stable_linux.x86_64.zip" >> $GITHUB_ENV
-        echo "GODOT_TEMPLATES_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_MAJOR_MINOR_VERSION}/Godot_v${GODOT_MAJOR_MINOR_VERSION}-stable_export_templates.tpz" >> $GITHUB_ENV
+        echo "GODOT_EXECUTABLE_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip" >> $GITHUB_ENV
+        echo "GODOT_TEMPLATES_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz" >> $GITHUB_ENV
+
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Cache Godot
+      id: cache-godot
+      uses: actions/cache@v4
+      with:
+        path: |
+          templates
+          godot
+        key: ${{ runner.os }}-godot
+
     - name: Install Godot
+      if: steps.cache-godot.outputs.cache-hit != 'true'
       run: |
-        # Download godot executable and templates
         curl ${GODOT_EXECUTABLE_DOWNLOAD_URL} --output godot.zip
         curl ${GODOT_TEMPLATES_DOWNLOAD_URL} --output templates.tpz
+        
         unzip godot.zip -d godot
         unzip templates.tpz
+        rm godot.zip templates.tpz
 
+    - name: Link Godot files from cache
+      run: |
         mkdir -v -p ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
         
-        mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-        mv godot/Godot* ${GITHUB_WORKSPACE}/godot.x86_64
-        # Just cleaning
-        rm -R templates/
-        rm templates.tpz
+        cp -r templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+        ln -s godot/Godot* ${GITHUB_WORKSPACE}/godot.x86_64
 
     - name: Build Project
       run: |
         mkdir -v -p ${GITHUB_WORKSPACE}/${EXPORT_FOLDER}
         cd ${PROJECT_FOLDER}
-        # Exporting the game
         ${GITHUB_WORKSPACE}/godot.x86_64 --headless --path . --export-${EXPORT_TEMPLATE} ${EXPORT_PRESET_NAME} ${GITHUB_WORKSPACE}/${EXPORT_FOLDER}/${EXPORT_FILENAME}
 
     # Workaround Cross-origin Isolation (COOR & COEP)
@@ -67,6 +78,20 @@ jobs:
         git clone https://github.com/gzuidhof/coi-serviceworker.git
         mv coi-serviceworker/coi-serviceworker.js ${EXPORT_FOLDER}/coi-serviceworker.js
         sed -i 's#\(		<script src="index.js"></script>\)#		<script src="coi-serviceworker.js"></script>\n\1#g' ${EXPORT_FOLDER}/index.html
+
+    # Uncomment for mkdocs (Use a link to 'demo')
+    #- name: Setup Python
+    #  uses: actions/setup-python@v2
+    #  with:
+    #      python-version: '3.10'
+
+    #- name: Create Mkdocs
+    #  run: |
+    #    pip install -r requirements.txt
+    #    mkdocs build -d pages
+    #    mkdir pages/demo
+    #    mv ${EXPORT_FOLDER}/* pages/demo
+    #    echo "EXPORT_FOLDER=pages" >> $GITHUB_ENV
 
     - name: Upload Artifact
       uses: actions/upload-pages-artifact@v1
