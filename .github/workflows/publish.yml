@@ -52,9 +52,11 @@ jobs:
     - name: Install Godot
       if: steps.cache-godot.outputs.cache-hit != 'true'
       run: |
-        curl ${GODOT_EXECUTABLE_DOWNLOAD_URL} --output godot.zip
-        curl ${GODOT_TEMPLATES_DOWNLOAD_URL} --output templates.tpz
+        echo "Downloading Godot ${GODOT_VERSION}..."
+        curl ${GODOT_EXECUTABLE_DOWNLOAD_URL} --output godot.zip -L
+        curl ${GODOT_TEMPLATES_DOWNLOAD_URL} --output templates.tpz -L
         
+        echo "Unzipping Godot ${GODOT_VERSION}..."
         unzip godot.zip -d godot
         unzip templates.tpz
         rm godot.zip templates.tpz
@@ -94,11 +96,11 @@ jobs:
     #    echo "EXPORT_FOLDER=pages" >> $GITHUB_ENV
 
     - name: Upload Artifact
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         name: github-pages
         path: ${{ env.EXPORT_FOLDER }}
 
     - name: Deploy to GitHub Pages 🚀
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
