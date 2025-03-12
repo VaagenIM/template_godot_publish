@@ -75,11 +75,12 @@ jobs:
         ${GITHUB_WORKSPACE}/godot.x86_64 --headless --path . --export-${EXPORT_TEMPLATE} ${EXPORT_PRESET_NAME} ${GITHUB_WORKSPACE}/${EXPORT_FOLDER}/${EXPORT_FILENAME}
 
     # Workaround Cross-origin Isolation (COOR & COEP)
-    - name: Add coi-service-worker
-      run: |
-        git clone https://github.com/gzuidhof/coi-serviceworker.git
-        mv coi-serviceworker/coi-serviceworker.js ${EXPORT_FOLDER}/coi-serviceworker.js
-        sed -i 's#\(		<script src="index.js"></script>\)#		<script src="coi-serviceworker.js"></script>\n\1#g' ${EXPORT_FOLDER}/index.html
+    # NOTE: No longer needed for 4.4(?) and above
+    # - name: Add coi-service-worker
+    #  run: |
+    #    git clone https://github.com/gzuidhof/coi-serviceworker.git
+    #    mv coi-serviceworker/coi-serviceworker.js ${EXPORT_FOLDER}/coi-serviceworker.js
+    #    sed -i 's#\(		<script src="index.js"></script>\)#		<script src="coi-serviceworker.js"></script>\n\1#g' ${EXPORT_FOLDER}/index.html
 
     # Uncomment for mkdocs (Use a link to 'demo')
     #- name: Setup Python
