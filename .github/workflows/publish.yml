@@ -6,7 +6,7 @@ on:
 
 env:
   # Endre på disse
-  GODOT_VERSION: "4.2.1"         # Din Godot versjon (se "About Godot")
+  GODOT_VERSION: "4.4"         # Din Godot versjon (se "About Godot")
   PROJECT_FOLDER: "demo_project" # Mappesti fra repository root
   EXPORT_PRESET_NAME: Web        # Navn på Web Export Preset i Project/Export (Standard: Web)
 
@@ -34,8 +34,8 @@ jobs:
     steps:
     - name: "Set environmental variables"
       run: |
-        echo "GODOT_EXECUTABLE_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip" >> $GITHUB_ENV
-        echo "GODOT_TEMPLATES_DOWNLOAD_URL=https://downloads.tuxfamily.org/godotengine/${GODOT_VERSION}/Godot_v${GODOT_VERSION}-stable_export_templates.tpz" >> $GITHUB_ENV
+        echo "GODOT_EXECUTABLE_DOWNLOAD_URL=https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip" >> $GITHUB_ENV
+        echo "GODOT_TEMPLATES_DOWNLOAD_URL=https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz" >> $GITHUB_ENV
 
     - name: Checkout
       uses: actions/checkout@v3
